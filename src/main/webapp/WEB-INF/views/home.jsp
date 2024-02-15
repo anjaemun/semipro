@@ -8,7 +8,7 @@
 <h1>
 
 </h1>
-
-
+    <a href="/save">회원가입</a>
+	<a href="/Login">로그인</a>
 </body>
 </html>

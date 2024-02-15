@@ -1,39 +1,43 @@
 package com.semi.travel;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
-/**
- * Handles requests for the application home page.
- */
+import com.semi.travel.dto.MemberDto;
+import com.semi.travel.service.MemberService;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class HomeController {
+	@Autowired
+	private MemberService memberService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
+	@GetMapping("/")
+	public String home() {
+		log.info("home()");
 		
 		return "home";
+	}
+	
+	//회원가입 save.jsp로 이동
+	@GetMapping("/save")
+	public String sava() {
+		System.out.println("save.html 실행");
+		return "save";
+	}
+	
+	@PostMapping("/save")
+	public String save(@ModelAttribute MemberDto memberDto) {
+		System.out.println("save ");
+		MemberService.save(memberDto);
+		return "index";
 	}
 	
 }
